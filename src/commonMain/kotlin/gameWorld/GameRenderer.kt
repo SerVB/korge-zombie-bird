@@ -13,7 +13,7 @@ import helper.AssetLoader
 
 class GameRenderer(private val world: GameWorld) {
 
-    fun render(stage: Stage) {
+    fun render(stage: Container) {
         val midPointY = GameWorld.gameVirtualHeight / 2
 
         stage.apply {
@@ -25,9 +25,9 @@ class GameRenderer(private val world: GameWorld) {
 
             image(AssetLoader.bg) { smoothing = false }.xy(0, midPointY + 23)  // todo: make bg move but slower than foreground
 
-            drawGrass(this)
-            drawPipes(this)
-            drawSkulls(this)
+            drawGrass()
+            drawPipes()
+            drawSkulls()
 
             val birdFrame = when (world.bird.isFlapping) {
                 true -> currentBirdFrame
@@ -73,53 +73,47 @@ class GameRenderer(private val world: GameWorld) {
         }
     }
 
-    private fun drawGrass(stage: Stage) {
-        stage.apply {
-            fun drawItem(grass: Grass) {
-                image(AssetLoader.grass) { smoothing = false }.xy(grass.x, grass.y)
-            }
-
-            drawItem(world.scroller.grass1)
-            drawItem(world.scroller.grass2)
+    private fun Container.drawGrass() {
+        fun drawItem(grass: Grass) {
+            image(AssetLoader.grass) { smoothing = false }.xy(grass.x, grass.y)
         }
+
+        drawItem(world.scroller.grass1)
+        drawItem(world.scroller.grass2)
     }
 
-    private fun drawSkulls(stage: Stage) {
-        stage.apply {
-            fun drawItem(pipe: Pipe) {
-                image(AssetLoader.skullUp)
-                        .apply { smoothing = false }
-                        .xy(pipe.x - 1, pipe.y + pipe.height - 14)
-                image(AssetLoader.skullDown)
-                        .apply { smoothing = false }
-                        .xy(pipe.x - 1, pipe.y + pipe.height + 45)
-            }
-
-            drawItem(world.scroller.pipe1)
-            drawItem(world.scroller.pipe2)
-            drawItem(world.scroller.pipe3)
+    private fun Container.drawSkulls() {
+        fun drawItem(pipe: Pipe) {
+            image(AssetLoader.skullUp)
+                    .apply { smoothing = false }
+                    .xy(pipe.x - 1, pipe.y + pipe.height - 14)
+            image(AssetLoader.skullDown)
+                    .apply { smoothing = false }
+                    .xy(pipe.x - 1, pipe.y + pipe.height + 45)
         }
+
+        drawItem(world.scroller.pipe1)
+        drawItem(world.scroller.pipe2)
+        drawItem(world.scroller.pipe3)
     }
 
-    private fun drawPipes(stage: Stage) {
+    private fun Container.drawPipes() {
         val midPointY = GameWorld.gameVirtualHeight / 2
 
-        stage.apply {
-            fun drawItem(pipe: Pipe) {
-                image(AssetLoader.bar)
-                        .apply { smoothing = false }
-                        .xy(pipe.x, pipe.y)
-                        .size(pipe.width, pipe.height)
-                image(AssetLoader.bar)
-                        .apply { smoothing = false }
-                        .xy(pipe.x, pipe.y + pipe.height + 45)
-                        .size(pipe.width, midPointY + 66 - (pipe.height + 45))
-            }
-
-            drawItem(world.scroller.pipe1)
-            drawItem(world.scroller.pipe2)
-            drawItem(world.scroller.pipe3)
+        fun drawItem(pipe: Pipe) {
+            image(AssetLoader.bar)
+                    .apply { smoothing = false }
+                    .xy(pipe.x, pipe.y)
+                    .size(pipe.width, pipe.height)
+            image(AssetLoader.bar)
+                    .apply { smoothing = false }
+                    .xy(pipe.x, pipe.y + pipe.height + 45)
+                    .size(pipe.width, midPointY + 66 - (pipe.height + 45))
         }
+
+        drawItem(world.scroller.pipe1)
+        drawItem(world.scroller.pipe2)
+        drawItem(world.scroller.pipe3)
     }
 
     companion object {
