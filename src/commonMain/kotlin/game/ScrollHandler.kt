@@ -1,15 +1,19 @@
-package gameObject
+package game
 
 import com.soywiz.klock.hr.HRTimeSpan
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.addTo
 
-class ScrollHandler(groundY: Double) {
+fun Container.scrollHandler(groundY: Double) = ScrollHandler(groundY).addTo(this)
 
-    val grass1 = Grass(0.0, groundY, 143, 11, SCROLL_SPEED)
-    val grass2 = Grass(grass1.tailX, groundY, 143, 11, SCROLL_SPEED)
+class ScrollHandler(groundY: Double) : Container() {
 
-    val pipe1 = Pipe(210.0, 0.0, 22, 60, SCROLL_SPEED, groundY)
-    val pipe2 = Pipe(pipe1.tailX + PIPE_GAP, 0.0, 22, 70, SCROLL_SPEED, groundY)
-    val pipe3 = Pipe(pipe2.tailX + PIPE_GAP, 0.0, 22, 60, SCROLL_SPEED, groundY)
+    val grass1 = grass(0.0, groundY, SCROLL_SPEED)
+    val grass2 = grass(grass1.tailX, groundY, SCROLL_SPEED)
+
+    val pipe1 = pipe(210.0, 0.0, 60, SCROLL_SPEED, groundY)
+    val pipe2 = pipe(pipe1.tailX + PIPE_GAP, 0.0, 70, SCROLL_SPEED, groundY)
+    val pipe3 = pipe(pipe2.tailX + PIPE_GAP, 0.0, 60, SCROLL_SPEED, groundY)
 
     fun update(delta: HRTimeSpan) {
         grass1.update(delta)

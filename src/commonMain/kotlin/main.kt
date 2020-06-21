@@ -1,16 +1,16 @@
-import com.soywiz.klogger.Logger
 import com.soywiz.korge.Korge
 import com.soywiz.korge.view.addHrUpdater
+import com.soywiz.korge.view.alignBottomToBottomOf
+import com.soywiz.korge.view.text
+import com.soywiz.korge.view.xy
 import com.soywiz.korim.bitmap.extract
 import com.soywiz.korim.color.Colors
-import gameWorld.GameRenderer
-import gameWorld.GameWorld
+import game.GameWorld
+import game.gameWorld
 import helper.AssetLoader
 import kotlin.math.roundToInt
 
 private const val initialMetricsMultiplier = 3
-
-val log = Logger("main")
 
 suspend fun main() = Korge(
         width = GameWorld.gameVirtualWidth * initialMetricsMultiplier,
@@ -20,14 +20,16 @@ suspend fun main() = Korge(
         bgcolor = Colors["#2b2b2b"],
         title = "KorGE Zombie Bird"
 ) {
-    Logger.defaultLevel = Logger.Level.DEBUG
-
     AssetLoader.load()
 
     views.gameWindow.icon = AssetLoader.birdMid.extract()
 
-    val world = GameWorld()
-    val renderer = GameRenderer(world)
+    val world = gameWorld()
+
+    val fpsText = text("FPS: ...")
+            .apply { filtering = false }
+            .xy(10, 10)
+            .alignBottomToBottomOf(this)
 
     val input = views.input
 
@@ -36,9 +38,8 @@ suspend fun main() = Korge(
             world.onClick()
         }
 
-        log.debug { "FPS: ${(1 / delta.secondsDouble).roundToInt()}" }
+        fpsText.text = "FPS: ${(1 / delta.secondsDouble).roundToInt()}"
 
         world.update(delta)
-        renderer.render(this)
     }
 }

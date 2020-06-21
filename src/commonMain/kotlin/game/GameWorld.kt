@@ -1,19 +1,23 @@
-package gameWorld
+package game
 
 import com.soywiz.klock.hr.HRTimeSpan
-import gameObject.Bird
-import gameObject.ScrollHandler
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.addTo
 
-class GameWorld {
+fun Container.gameWorld() = GameWorld().addTo(this)
 
-    val bird: Bird
-    val scroller: ScrollHandler
+class GameWorld : Container() {
+
+    private val backgroundView: BackgroundView
+    private val scroller: ScrollHandler
+    private val bird: Bird
 
     init {
         val midPointY = gameVirtualHeight / 2.0
 
-        bird = Bird(33.0 + 17 / 2, midPointY - 5 + 12 / 2, 17, 12)
-        scroller = ScrollHandler(midPointY + 66)
+        backgroundView = backgroundView(midPointY)
+        scroller = scrollHandler(midPointY + 66)
+        bird = bird(33.0 + 17 / 2, midPointY - 5 + 12 / 2)
     }
 
     fun update(delta: HRTimeSpan) {
