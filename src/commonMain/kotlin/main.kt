@@ -2,7 +2,6 @@ import com.soywiz.korge.Korge
 import com.soywiz.korge.view.addHrUpdater
 import com.soywiz.korge.view.alignBottomToBottomOf
 import com.soywiz.korge.view.text
-import com.soywiz.korge.view.xy
 import com.soywiz.korim.bitmap.extract
 import com.soywiz.korim.color.Colors
 import game.GameWorld
@@ -28,7 +27,6 @@ suspend fun main() = Korge(
 
     val fpsText = text("FPS: ...")
             .apply { filtering = false }
-            .xy(10, 10)
             .alignBottomToBottomOf(this)
 
     val input = views.input

@@ -30,27 +30,18 @@ class Bird(x: Double, y: Double) : Container() {
 
     fun update(delta: HRTimeSpan) {
         velocity += acceleration * delta.secondsDouble
-
-        if (velocity.y > 200) {
-            velocity.y = 200.0
-        }
+        velocity.y = minOf(200.0, velocity.y)
 
         position += velocity * delta.secondsDouble
 
         if (velocity.y < 0) {
             birdRotationDegrees -= 600 * delta.secondsDouble
-
-            if (birdRotationDegrees < -20) {
-                birdRotationDegrees = -20.0
-            }
+            birdRotationDegrees = maxOf(-20.0, birdRotationDegrees)
         }
 
         if (isFalling) {
             birdRotationDegrees += 480 * delta.secondsDouble
-
-            if (birdRotationDegrees > 90) {
-                birdRotationDegrees = 90.0
-            }
+            birdRotationDegrees = minOf(90.0, birdRotationDegrees)
         }
 
         this.xy(position.x, position.y)
