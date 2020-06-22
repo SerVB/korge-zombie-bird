@@ -45,7 +45,9 @@ class Bird(x: Double, y: Double) : Container() {
         }
 
         this.xy(position.x, position.y)
-        image.rotation(Angle.fromDegrees(birdRotationDegrees))
+        image
+                .rotation(Angle.fromDegrees(birdRotationDegrees))
+                .apply { texture = currentBirdImage }
     }
 
     fun onClick() {
