@@ -1,5 +1,7 @@
 package helper
 
+import com.soywiz.korau.sound.NativeSound
+import com.soywiz.korau.sound.readSound
 import com.soywiz.korim.bitmap.Bitmap
 import com.soywiz.korim.bitmap.BmpSlice
 import com.soywiz.korim.bitmap.slice
@@ -22,6 +24,8 @@ object AssetLoader {
     lateinit var skullDown: BmpSlice private set
     lateinit var bar: BmpSlice private set
 
+    lateinit var dead: NativeSound private set
+
     suspend fun load() {
         texture = resourcesVfs["texture.png"].readBitmap()
 
@@ -35,5 +39,7 @@ object AssetLoader {
         skullUp = texture.slice(RectangleInt(192, 0, 24, 14)).extract().flipY().slice()  // todo: can a slice just be flipped?
         skullDown = texture.slice(RectangleInt(192, 0, 24, 14))
         bar = texture.slice(RectangleInt(136, 16, 22, 3))
+
+        dead = resourcesVfs["dead.wav"].readSound()
     }
 }

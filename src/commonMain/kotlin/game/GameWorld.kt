@@ -3,10 +3,13 @@ package game
 import com.soywiz.klock.hr.HRTimeSpan
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.addTo
+import helper.AssetLoader
 
 fun Container.gameWorld() = GameWorld().addTo(this)
 
 class GameWorld : Container() {
+
+    private var isAlive = true
 
     private val backgroundView: BackgroundView
     private val scroller: ScrollHandler
@@ -24,8 +27,10 @@ class GameWorld : Container() {
         bird.update(delta)
         scroller.update(delta)
 
-        if (scroller.collides(bird)) {
+        if (isAlive && scroller.collides(bird)) {
             scroller.stop()
+            AssetLoader.dead.play()
+            isAlive = false
         }
     }
 

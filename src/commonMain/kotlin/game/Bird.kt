@@ -5,7 +5,7 @@ import com.soywiz.klock.hr.HRTimeSpan
 import com.soywiz.kmem.toIntFloor
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.BmpSlice
-import com.soywiz.korim.color.RGBA
+import com.soywiz.korim.color.Colors
 import com.soywiz.korma.geom.Angle
 import com.soywiz.korma.geom.Point
 import helper.AssetLoader
@@ -25,7 +25,7 @@ class Bird(x: Double, y: Double) : Container() {
 
     init {
         image = image(currentBirdImage, 0.5, 0.5) { smoothing = false }
-        boundingCircle = circle(BOUNDING_RADIUS, RGBA(255, 0, 0, 127)).xy(-BOUNDING_RADIUS, -BOUNDING_RADIUS)
+        boundingCircle = circle(BOUNDING_RADIUS, Colors.TRANSPARENT_WHITE).xy(-BOUNDING_RADIUS, -BOUNDING_RADIUS)
     }
 
     fun update(delta: HRTimeSpan) {
