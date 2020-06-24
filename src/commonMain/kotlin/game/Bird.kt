@@ -14,14 +14,20 @@ fun Container.bird(x: Double, y: Double) = Bird(x = x, y = y).addTo(this)
 
 class Bird(x: Double, y: Double) : Container() {
 
+    var isAlive = true
+        private set
+
     private var birdRotationDegrees = 0.0
 
     private val position = Point(x, y)  // todo: is there a vector2d class just to name it more suitable?
     private val velocity = Point()
-    private val acceleration = Point(0, 460)  // todo: how to make it immutable?
+    private val acceleration = Point(0, 460)  // todo: how to make it immutable? (don't need it here but for the future)
 
     private val image: Image
     val boundingCircle: Circle
+
+    val lowestY get() = position.y + BOUNDING_RADIUS
+    val rightmostX get() = position.x + BOUNDING_RADIUS
 
     init {
         image = image(currentBirdImage, 0.5, 0.5) { smoothing = false }
@@ -39,7 +45,7 @@ class Bird(x: Double, y: Double) : Container() {
             birdRotationDegrees = maxOf(-20.0, birdRotationDegrees)
         }
 
-        if (isFalling) {
+        if (isFalling || !isAlive) {
             birdRotationDegrees += 480 * delta.secondsDouble
             birdRotationDegrees = minOf(90.0, birdRotationDegrees)
         }
@@ -51,11 +57,23 @@ class Bird(x: Double, y: Double) : Container() {
     }
 
     fun onClick() {
-        velocity.y = -140.0
+        if (isAlive) {
+            velocity.y = -140.0
+            AssetLoader.flap.play()
+        }
+    }
+
+    fun die() {
+        isAlive = false
+        velocity.y = 0.0
+    }
+
+    fun decelerate() {
+        acceleration.y = 0.0
     }
 
     private val isFalling get() = velocity.y > 110
-    private val isFlapping get() = velocity.y <= 70
+    private val isFlapping get() = isAlive && velocity.y <= 70
 
     private val currentBirdImage: BmpSlice
         get() = when (isFlapping) {

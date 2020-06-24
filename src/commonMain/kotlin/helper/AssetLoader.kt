@@ -5,6 +5,8 @@ import com.soywiz.korau.sound.readSound
 import com.soywiz.korim.bitmap.Bitmap
 import com.soywiz.korim.bitmap.BmpSlice
 import com.soywiz.korim.bitmap.slice
+import com.soywiz.korim.font.BitmapFont
+import com.soywiz.korim.font.readBitmapFont
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.RectangleInt
@@ -25,6 +27,11 @@ object AssetLoader {
     lateinit var bar: BmpSlice private set
 
     lateinit var dead: NativeSound private set
+    lateinit var flap: NativeSound private set
+    lateinit var coin: NativeSound private set
+
+    lateinit var text: BitmapFont private set
+    lateinit var shadow: BitmapFont private set
 
     suspend fun load() {
         texture = resourcesVfs["texture.png"].readBitmap()
@@ -41,5 +48,10 @@ object AssetLoader {
         bar = texture.slice(RectangleInt(136, 16, 22, 3))
 
         dead = resourcesVfs["dead.wav"].readSound()
+        flap = resourcesVfs["flap.wav"].readSound()
+        coin = resourcesVfs["coin.wav"].readSound()
+
+        text = resourcesVfs["text.fnt"].readBitmapFont()
+        shadow = resourcesVfs["shadow.fnt"].readBitmapFont()
     }
 }

@@ -6,6 +6,7 @@ import com.soywiz.korge.view.container
 import com.soywiz.korge.view.xy
 import com.soywiz.korma.geom.Point
 
+// todo: rename to LeftScrollable
 abstract class HScrollable(
         x: Double, y: Double, width: Int,
         scrollSpeed: Double
@@ -18,7 +19,7 @@ abstract class HScrollable(
     protected val position = Point(x, y)
     private val velocity = Point(scrollSpeed, 0.0)
 
-    val isScrolledLeft get() = tailX < 0
+    val isScrolledLeft get() = rightmostX < 0
 
     fun update(delta: HRTimeSpan) {
         position += velocity * delta.secondsDouble
@@ -39,5 +40,5 @@ abstract class HScrollable(
 
     protected open fun onReset() {}
 
-    val tailX get() = position.x + myWidth
+    val rightmostX get() = position.x + myWidth
 }

@@ -10,6 +10,8 @@ fun Container.pipe(x: Double, y: Double, upperBarHeight: Int, scrollSpeed: Doubl
 class Pipe(x: Double, y: Double, private var upperBarHeight: Int, scrollSpeed: Double, private val groundY: Double)
     : HScrollable(x, y, barWidth, scrollSpeed) {
 
+    var isScored = false
+
     private val barUpImg = scrollingContainer.image(AssetLoader.bar) { smoothing = false }
     private val barDownImg = scrollingContainer.image(AssetLoader.bar) { smoothing = false }
     private val skullUpImg = scrollingContainer.image(AssetLoader.skullUp) { smoothing = false }
@@ -18,6 +20,7 @@ class Pipe(x: Double, y: Double, private var upperBarHeight: Int, scrollSpeed: D
     private val collisionSet = listOf(skullUpImg, skullDownImg, barUpImg, barDownImg)
 
     private val leftmostX get() = position.x - (skullWidth - barWidth) / 2
+    val centerX get() = position.x + barWidth / 2
 
     init {
         onBarHeightChange()
@@ -26,6 +29,7 @@ class Pipe(x: Double, y: Double, private var upperBarHeight: Int, scrollSpeed: D
     override fun onReset() {
         upperBarHeight = Random.nextInt(15, 105)
         onBarHeightChange()
+        isScored = false
     }
 
     private fun onBarHeightChange() {
