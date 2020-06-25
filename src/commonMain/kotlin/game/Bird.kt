@@ -32,11 +32,18 @@ class Bird(x: Double, y: Double) : Container() {
     init {
         image = image(currentBirdImage, 0.5, 0.5) { smoothing = false }
         boundingCircle = circle(BOUNDING_RADIUS, Colors.TRANSPARENT_WHITE).xy(-BOUNDING_RADIUS, -BOUNDING_RADIUS)
+
+        updateView()
     }
 
     fun update(delta: HRTimeSpan) {
         velocity += acceleration * delta.secondsDouble
         velocity.y = minOf(200.0, velocity.y)
+
+        if (position.y < 0) {
+            position.y = 0.0
+            velocity.y = 0.0
+        }
 
         position += velocity * delta.secondsDouble
 
@@ -50,6 +57,10 @@ class Bird(x: Double, y: Double) : Container() {
             birdRotationDegrees = minOf(90.0, birdRotationDegrees)
         }
 
+        updateView()
+    }
+
+    private fun updateView() {
         this.xy(position.x, position.y)
         image
                 .rotation(Angle.fromDegrees(birdRotationDegrees))
@@ -70,6 +81,14 @@ class Bird(x: Double, y: Double) : Container() {
 
     fun decelerate() {
         acceleration.y = 0.0
+    }
+
+    fun onRestart(y: Double) {
+        birdRotationDegrees = 0.0
+        position.y = y
+        velocity.setTo(0.0, 0.0)
+        acceleration.setTo(0.0, 460.0)
+        isAlive = true
     }
 
     private val isFalling get() = velocity.y > 110

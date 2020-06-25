@@ -21,24 +21,37 @@ abstract class HScrollable(
 
     val isScrolledLeft get() = rightmostX < 0
 
+    init {
+        updateView()
+    }
+
     fun update(delta: HRTimeSpan) {
         position += velocity * delta.secondsDouble
-        scrollingContainer.xy(position.x, position.y)
+        updateView()
         onUpdate()
     }
 
     protected open fun onUpdate() {}
 
+    private fun updateView() {
+        scrollingContainer.xy(position.x, position.y)
+    }
+
     fun stop() {
         velocity.x = 0.0
     }
 
-    fun reset(newX: Double) {
-        position.x = newX
+    fun reset(x: Double) {
+        position.x = x
         onReset()
     }
 
     protected open fun onReset() {}
+
+    fun onRestart(x: Double, scrollSpeed: Double) {
+        velocity.x = scrollSpeed
+        reset(x)
+    }
 
     val rightmostX get() = position.x + myWidth
 }

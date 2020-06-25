@@ -7,6 +7,7 @@ import com.soywiz.korim.color.Colors
 import game.GameWorld
 import game.gameWorld
 import helper.AssetLoader
+import helper.Storage
 import kotlin.math.roundToInt
 
 private const val initialMetricsMultiplier = 3
@@ -20,6 +21,7 @@ suspend fun main() = Korge(
         title = "KorGE Zombie Bird"
 ) {
     AssetLoader.load()
+    Storage.init()
 
     views.gameWindow.icon = AssetLoader.birdMid.extract()
 
@@ -33,7 +35,15 @@ suspend fun main() = Korge(
 
     addHrUpdater { delta ->
         if (input.mouseButtons != 0) {  // todo: this algorithm thinks that a long click is multiple clicks
+            if (world.isReady) {
+                world.start()
+            }
+
             world.onClick()
+
+            if (world.isGameOver || world.isHighScore) {
+                world.restart()
+            }
         }
 
         fpsText.text = "FPS: ${(1 / delta.secondsDouble).roundToInt()}"

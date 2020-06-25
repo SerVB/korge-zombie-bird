@@ -66,6 +66,14 @@ class ScrollHandler(groundY: Double) : Container() {
         return pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird)
     }
 
+    fun onRestart() {
+        grass1.onRestart(0.0, SCROLL_SPEED)
+        grass2.onRestart(grass1.rightmostX, SCROLL_SPEED)
+        pipe1.onRestart(210.0, SCROLL_SPEED)
+        pipe2.onRestart(pipe1.rightmostX + PIPE_GAP, SCROLL_SPEED)
+        pipe3.onRestart(pipe2.rightmostX + PIPE_GAP, SCROLL_SPEED)
+    }
+
     companion object {
 
         const val SCROLL_SPEED = -59.0
