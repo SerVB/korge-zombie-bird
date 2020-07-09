@@ -1,6 +1,8 @@
 # KorGE Zombie Bird
 A Flappy Bird Remake using KorGE.
 
+Play online: <https://servb.github.io/korge-zombie-bird-distribution/>.
+
 ## Origin
 This app is heavily based on [Kilobolt's LibGDX Zombie Bird Tutorial](http://www.kilobolt.com/zombie-bird-tutorial-flappy-bird-remake.html).
 
